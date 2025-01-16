@@ -24,5 +24,6 @@ namespace Academy.Models
         public string PersonalNumber { get; set; }
 
         public DateTime DateOfEnrollment { get; set; }
+        public ICollection<StudentCourse> StudentCourses { get; set; }
     }
 }

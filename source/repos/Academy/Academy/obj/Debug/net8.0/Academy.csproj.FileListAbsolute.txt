@@ -128,3 +128,4 @@ C:\Users\raul0\source\repos\Academy\Academy\obj\Debug\net8.0\refint\Academy.dll
 C:\Users\raul0\source\repos\Academy\Academy\obj\Debug\net8.0\Academy.pdb
 C:\Users\raul0\source\repos\Academy\Academy\obj\Debug\net8.0\Academy.genruntimeconfig.cache
 C:\Users\raul0\source\repos\Academy\Academy\obj\Debug\net8.0\ref\Academy.dll
+C:\Users\raul0\source\repos\Academy\Academy\obj\Debug\net8.0\Academy.sourcelink.json

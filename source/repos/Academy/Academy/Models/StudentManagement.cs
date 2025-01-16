@@ -16,10 +16,10 @@ namespace Academy.Models
         {
             _context = context;
         }
-        
+
         public void AddStudent(string firstName, string lastName)
         {
-          
+
             string personalNumber = GeneratePersonalNumber();
 
             Student student = new Student()
@@ -38,10 +38,10 @@ namespace Academy.Models
             Random random = new Random();
             string r = "";
 
-           
+
             for (int i = 0; i < 11; i++)
             {
-                r += random.Next(0, 10).ToString(); 
+                r += random.Next(0, 10).ToString();
             }
 
             return r;
@@ -55,15 +55,58 @@ namespace Academy.Models
                 student.FirstName = newFirstName;
                 student.LastName = newLastName;
 
-                _context.SaveChanges();  
+                _context.SaveChanges();
             }
             else
             {
-               
+
                 Console.WriteLine("Student not found");
             }
         }
+        public void DeleteStudent(int studentId)
+        {
+            try
+            {
+                Console.WriteLine("enter student id to remove");
+                var student = _context.Students.FirstOrDefault(s => s.Id == studentId);
+                if (student != null)
+                {
+                    Console.WriteLine("student could not be found");
+                    return;
+                }
+                _context.Students.Remove(student);
+                _context.SaveChanges();
+                Console.WriteLine($"{student.FirstName} {student.Id} deleted");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"error {ex.Message}");
+            }
 
+        }
+        public void ViewAllStudents()
+        {
+            try
+            {
+                var students = _context.Students
+                                       .Include(s => s.FirstName)
+                                       .ToList();
+                if (students != null)
+                {
+                    foreach (var student in students)
+                    {
+                        Console.WriteLine($"Id:{student.Id} \n First Name: {student.FirstName} \n Last Name: {student.LastName} \n Personal Number: {student.PersonalNumber} \n Enrollement date: {student.DateOfEnrollment}");
+                        Console.WriteLine("_______________________________________________");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"error:{ex.Message}");
+            }
+
+        }
 
     }
 }
+

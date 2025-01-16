@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Academy.Migrations
 {
     [DbContext(typeof(AcademyDbContext))]
-    [Migration("20250116103519_init")]
+    [Migration("20250116111526_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -110,6 +110,24 @@ namespace Academy.Migrations
                     b.ToTable("Students");
                 });
 
+            modelBuilder.Entity("Academy.Models.StudentCourse", b =>
+                {
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Grade")
+                        .HasColumnType("int");
+
+                    b.HasKey("StudentId", "CourseId");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("StudentCourses");
+                });
+
             modelBuilder.Entity("Academy.Models.StudentDetails", b =>
                 {
                     b.Property<int>("Id")
@@ -165,6 +183,25 @@ namespace Academy.Migrations
                     b.Navigation("Student");
                 });
 
+            modelBuilder.Entity("Academy.Models.StudentCourse", b =>
+                {
+                    b.HasOne("Academy.Models.Course", "Course")
+                        .WithMany("StudentCourses")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Academy.Models.Student", "Student")
+                        .WithMany("StudentCourses")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Student");
+                });
+
             modelBuilder.Entity("Academy.Models.StudentDetails", b =>
                 {
                     b.HasOne("Academy.Models.Student", "Student")
@@ -174,6 +211,16 @@ namespace Academy.Migrations
                         .IsRequired();
 
                     b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("Academy.Models.Course", b =>
+                {
+                    b.Navigation("StudentCourses");
+                });
+
+            modelBuilder.Entity("Academy.Models.Student", b =>
+                {
+                    b.Navigation("StudentCourses");
                 });
 #pragma warning restore 612, 618
         }
