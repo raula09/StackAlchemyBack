@@ -11,7 +11,7 @@ namespace Academy.Models
     public class GradeManagement
     {
         private readonly AcademyDbContext _context;
-      
+
         public GradeManagement(AcademyDbContext context)
         {
             _context = context;
@@ -52,11 +52,11 @@ namespace Academy.Models
 
                 Console.WriteLine($"student {student.FirstName} in course {course.Name} assigned: {score}. ");
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 Console.WriteLine($"error: {ex.Message}");
             }
-         
+
         }
         public void UpdateGrade(int studentId, int courseId, int newScore)
         {
@@ -76,7 +76,7 @@ namespace Academy.Models
                     return;
                 }
 
-                
+
                 var grade = _context.Grades.FirstOrDefault(g => g.StudentId == studentId && g.CourseId == courseId);
                 if (grade == null)
                 {
@@ -84,12 +84,12 @@ namespace Academy.Models
                     return;
                 }
 
-              
+
                 grade.Score = newScore;
                 grade.Date = DateTime.Now;
                 grade.Status = newScore >= 50 ? "Completed" : "Active";
 
-               
+
                 _context.SaveChanges();
 
                 Console.WriteLine($"Student {student.FirstName} in course {course.Name} has been assigned a new score: {newScore}.");
@@ -99,6 +99,95 @@ namespace Academy.Models
                 Console.WriteLine($"Error: {ex.Message}");
             }
         }
+        public void GetStudentGrade(int studentId, int courseId)
+        {
+            try
+            {
+              
+                var student = _context.Students.FirstOrDefault(s => s.Id == studentId);
+                if (student == null)
+                {
+                    Console.WriteLine("Student not found.");
+                    return;
+                }
+
+           
+                var course = _context.Courses.FirstOrDefault(c => c.Id == courseId);
+                if (course == null)
+                {
+                    Console.WriteLine("Course not found.");
+                    return;
+                }
+
+               
+                var grade = _context.Grades.FirstOrDefault(g => g.StudentId == studentId && g.CourseId == courseId);
+                if (grade == null)
+                {
+                    Console.WriteLine("Grade not found for the specified student and course.");
+                    return;
+                }
+
+                Console.WriteLine("Student Details:");
+                Console.WriteLine($"Name: {student.FirstName} {student.LastName}");
+                Console.WriteLine($"Personal Number: {student.PersonalNumber}");
+
+                Console.WriteLine("\nCourse Details:");
+                Console.WriteLine($"Course Name: {course.Name}");
+                Console.WriteLine($"Grade: {grade.Score} ({grade.Status})");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+        }
+        public void GetCourseGrades(int courseId)
+        {
+            try
+            {
+              
+                var course = _context.Courses.FirstOrDefault(c => c.Id == courseId);
+                if (course == null)
+                {
+                    Console.WriteLine("Course not found.");
+                    return;
+                }
+
+               
+                var grades = _context.Grades.Where(g => g.CourseId == courseId).ToList();
+                if (!grades.Any())
+                {
+                    Console.WriteLine("no student or grades found");
+                    return;
+                }
+
+                
+                Console.WriteLine($"Course Name: {course.Name}\n");
+
+                
+                Console.WriteLine("Student Grades:");
+                foreach (var grade in grades)
+                {
+                    
+                    var student = _context.Students.FirstOrDefault(s => s.Id == grade.StudentId);
+                    if (student != null)
+                    {
+                        Console.WriteLine($"Name: {student.FirstName} {student.LastName}");
+                        Console.WriteLine($"Personal Number: {student.PersonalNumber}");
+                        Console.WriteLine($"Grade: {grade.Score} ({grade.Status})\n");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Student not found for the grade .\n");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+        }
+
+
 
     }
 }
