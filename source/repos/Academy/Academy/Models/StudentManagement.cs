@@ -106,6 +106,27 @@ namespace Academy.Models
             }
 
         }
+        public void EnrollStudentInCourse(int studentId, int courseId)
+        {
+         
+            var student = _context.Students.Find(studentId);
+            var course = _context.Courses.Find(courseId);
+
+            if (student == null || course == null)
+            {
+                throw new Exception("Student or Course not found");
+            }
+
+            var studentCourse = new StudentCourse
+            {
+                StudentId = studentId,
+                CourseId = courseId
+            };
+
+         
+            _context.StudentCourses.Add(studentCourse);
+            _context.SaveChanges();
+        }
 
     }
 }
