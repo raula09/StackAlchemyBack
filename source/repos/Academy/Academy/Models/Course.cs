@@ -16,6 +16,7 @@ namespace Academy.Models
         [Range(0, 15)]
         public int Credits { get; set; }
         public int Semester {  get; set; }
+        public DateTime DateOfCreation { get; set; }
         public ICollection<StudentCourse> StudentCourses { get; set; }
     }
 }
