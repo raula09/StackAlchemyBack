@@ -16,19 +16,37 @@ namespace Academy.Models
             _context = context;
         }
 
-        public void AddCourse(string name, int credits, int semester)
+        public void AddCourse(string courseName, int credits, int semester)
         {
-            Course course = new Course()
+            try
             {
-                Name = name,
-                Credits = credits,
-                Semester = semester,
-                DateOfCreation = DateTime.Now
-            };
+                var course = new Course
+                {
+                    Name = courseName,
+                    Credits = credits,
+                    Semester = semester,
+                    DateOfCreation = DateTime.Now
+                };
 
-            _context.Courses.Add(course);
-            _context.SaveChanges();
+                _context.Courses.Add(course);
+                _context.SaveChanges();
+
+                Console.WriteLine($"Course {courseName} added successfully.");
+
+               
+                var fileManagement = new FileManagement(_context);
+                fileManagement.LogAction($"New course added: {course.Name}, Course ID: {course.Id}, Credits: {course.Credits}, Semester: {course.Semester}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error adding course: {ex.Message}");
+
+              
+                var fileManagement = new FileManagement(_context); 
+                fileManagement.LogAction($"Error adding course {courseName}: {ex.Message}");
+            }
         }
+
 
         public void UpdateCourse(int courseId, string newName, int newCredits, int newSemester)
         {
@@ -101,16 +119,20 @@ namespace Academy.Models
         {
             try
             {
-                var courses = _context.Courses
-                                       .Include(s => s.Name)
-                                       .ToList();
-                if (courses != null)
+                
+                var courses = _context.Courses.ToList();
+
+                if (courses != null && courses.Any())
                 {
                     foreach (var course in courses)
                     {
-                        Console.WriteLine($"Id:{course.Id} \n Name: {course.Name} \n Max Credits: {course.Credits} \n Semester: {course.Semester} \n Creation date: {course.DateOfCreation}");
+                        Console.WriteLine($"Id: {course.Id} \n Name: {course.Name} \n Max Credits: {course.Credits} \n Semester: {course.Semester} \n Creation Date: {course.DateOfCreation}");
                         Console.WriteLine("_______________________________________________");
                     }
+                }
+                else
+                {
+                    Console.WriteLine("No courses found.");
                 }
             }
             catch (Exception ex)
@@ -118,6 +140,7 @@ namespace Academy.Models
                 Console.WriteLine($"Error: {ex.Message}");
             }
         }
+
 
         public void EnrollStudentInCourse(int studentId, int courseId)
         {

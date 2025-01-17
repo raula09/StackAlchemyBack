@@ -33,6 +33,9 @@ namespace Academy.Migrations
                     b.Property<int>("Credits")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("DateOfCreation")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -147,16 +150,13 @@ namespace Academy.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("StudentId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("StudentId1")
+                    b.Property<int>("StudentId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StudentId1");
+                    b.HasIndex("StudentId")
+                        .IsUnique();
 
                     b.ToTable("StudentDetails");
                 });
@@ -202,8 +202,8 @@ namespace Academy.Migrations
             modelBuilder.Entity("Academy.Models.StudentDetails", b =>
                 {
                     b.HasOne("Academy.Models.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId1")
+                        .WithOne("StudentDetails")
+                        .HasForeignKey("Academy.Models.StudentDetails", "StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -218,6 +218,9 @@ namespace Academy.Migrations
             modelBuilder.Entity("Academy.Models.Student", b =>
                 {
                     b.Navigation("StudentCourses");
+
+                    b.Navigation("StudentDetails")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

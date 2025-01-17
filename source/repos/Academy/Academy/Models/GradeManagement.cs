@@ -18,33 +18,44 @@ namespace Academy.Models
         {
             try
             {
-                var grade = _context.Grades
-                                    .FirstOrDefault(g => g.StudentId == studentId && g.CourseId == courseId);
+               
+                var student = _context.Students.FirstOrDefault(s => s.Id == studentId);
+                var course = _context.Courses.FirstOrDefault(c => c.Id == courseId);
 
-                if (grade == null)
+                if (student == null || course == null)
                 {
-                    grade = new Grade
-                    {
-                        StudentId = studentId,
-                        CourseId = courseId,
-                        Score = score
-                    };
-
-                    _context.Grades.Add(grade);
-                }
-                else
-                {
-                    grade.Score = score;
+                    Console.WriteLine("Student or Course not found.");
+                    return;
                 }
 
+               
+                var grade = new Grade
+                {
+                    StudentId = studentId,
+                    CourseId = courseId,
+                    Score = score,
+                    Status = "Assigned" 
+                };
+
+                
+                _context.Grades.Add(grade);
                 _context.SaveChanges();
-                Console.WriteLine($"Score for student {studentId} in course {courseId} updated to {score}.");
+
+                Console.WriteLine($"Grade {score} assigned to student {student.FirstName} {student.LastName} for course {course.Name}.");
+                var fileManagement = new FileManagement(_context); 
+                fileManagement.LogAction($"Grade assigned: Student ID: {grade.StudentId}, Course ID: {grade.CourseId}, Score: {grade.Score}");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
+                    Console.WriteLine($"Inner Stack Trace: {ex.InnerException.StackTrace}");
+                }
             }
         }
+
 
         public void UpdateGrade(int studentId, int courseId, int newScore)
         {

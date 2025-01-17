@@ -17,7 +17,7 @@ namespace Academy.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=RAUL\SQLEXPRESS;Database=AcademyDb;Trusted_Connection=True;TrustServerCertificate=True;");
+            optionsBuilder.UseSqlServer(@"Server=RAUL\SQLEXPRESS;Database=AcademyDb2;Trusted_Connection=True;TrustServerCertificate=True;");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -35,6 +35,11 @@ namespace Academy.Data
                 .HasOne(sc => sc.Course)
                 .WithMany(c => c.StudentCourses)
                 .HasForeignKey(sc => sc.CourseId);
+            modelBuilder.Entity<Student>()
+          .HasOne(s => s.StudentDetails)  
+          .WithOne(sd => sd.Student)     
+          .HasForeignKey<StudentDetails>(sd => sd.StudentId); 
+
         }
     }
 }

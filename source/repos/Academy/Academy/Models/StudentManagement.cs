@@ -18,27 +18,49 @@ namespace Academy.Models
             _context = context;
         }
 
-        public void AddStudent(string firstName, string lastName)
+        public void AddStudent(string firstName, string lastName, DateTime dateOfBirth, string phoneNumber, string address)
         {
             try
             {
+             
                 string personalNumber = GeneratePersonalNumber();
 
-                Student student = new Student()
+                
+                var student = new Student
                 {
                     FirstName = firstName,
                     LastName = lastName,
-                    DateOfEnrollment = DateTime.Now,
-                    PersonalNumber = personalNumber
+                    PersonalNumber = personalNumber,
+                    DateOfEnrollment = DateTime.Now, 
                 };
 
+              
                 _context.Students.Add(student);
+                _context.SaveChanges();
+
+               
+                var studentDetails = new StudentDetails
+                {
+                    StudentId = student.Id,
+                    DateOfBirth = dateOfBirth,
+                    PhoneNumber = phoneNumber,
+                    Address = address
+                };
+
+                _context.StudentDetails.Add(studentDetails);
                 _context.SaveChanges();
 
                 Console.WriteLine($"Student {firstName} {lastName} added successfully with ID: {student.Id}");
 
+        
+                FileManagement fileManagement = new FileManagement(_context);
+
+               
+                fileManagement.SaveAllStudentsInfoToSingleFile(student.Id);
+
                 int courseCount = 0;
 
+           
                 while (courseCount < 4)
                 {
                     Console.WriteLine("Please choose an option:");
@@ -68,7 +90,6 @@ namespace Academy.Models
                                 _context.StudentCourses.Add(studentCourse);
                                 _context.SaveChanges();
                                 Console.WriteLine($"Course {course.Name} added to student {student.FirstName} {student.LastName}.");
-
                                 courseCount++;
                             }
                             break;
@@ -82,12 +103,20 @@ namespace Academy.Models
                             break;
                     }
                 }
+                var fileManagement2 = new FileManagement(_context);
+                fileManagement2.LogAction($"New student added: {firstName} {lastName}, ID: {student.Id}, Personal Number: {student.PersonalNumber}");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error adding student: {ex.Message}");
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
+                }
             }
         }
+
+
 
         public void ViewStudents()
         {

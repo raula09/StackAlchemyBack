@@ -19,7 +19,8 @@ namespace Academy.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Credits = table.Column<int>(type: "int", nullable: false),
-                    Semester = table.Column<int>(type: "int", nullable: false)
+                    Semester = table.Column<int>(type: "int", nullable: false),
+                    DateOfCreation = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -102,19 +103,18 @@ namespace Academy.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StudentId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StudentId = table.Column<int>(type: "int", nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CurrentSemester = table.Column<int>(type: "int", nullable: false),
-                    StudentId1 = table.Column<int>(type: "int", nullable: false)
+                    CurrentSemester = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_StudentDetails", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_StudentDetails_Students_StudentId1",
-                        column: x => x.StudentId1,
+                        name: "FK_StudentDetails_Students_StudentId",
+                        column: x => x.StudentId,
                         principalTable: "Students",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -136,9 +136,10 @@ namespace Academy.Migrations
                 column: "CourseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StudentDetails_StudentId1",
+                name: "IX_StudentDetails_StudentId",
                 table: "StudentDetails",
-                column: "StudentId1");
+                column: "StudentId",
+                unique: true);
         }
 
         /// <inheritdoc />

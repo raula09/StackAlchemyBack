@@ -9,10 +9,9 @@ using System.Threading.Tasks;
 namespace Academy.Models
 {
     public class StudentDetails
-
     {
         public int Id { get; set; }
-        public string StudentId { get; set; }
+        public int StudentId { get; set; } 
         [Required]
         public DateTime DateOfBirth { get; set; }
         [Required]
@@ -20,7 +19,9 @@ namespace Academy.Models
         [RegularExpression(@"^\d{9,}$")]
         public string PhoneNumber { get; set; }
         [Required]
-        public int CurrentSemester {  get; set; }
+        public int CurrentSemester { get; set; }
+
         public Student Student { get; set; }
     }
+
 }
