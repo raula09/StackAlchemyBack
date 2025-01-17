@@ -165,7 +165,7 @@ namespace Academy.Models
                 }
             }
         }
-          public void GradeManagementMenu()
+        public void GradeManagementMenu()
         {
             while (true)
             {
@@ -182,31 +182,41 @@ namespace Academy.Models
                 switch (choice)
                 {
                     case "1":
-                        Console.WriteLine("Enter Name: ");
-                        string name = Console.ReadLine();
-                        Console.WriteLine("Enter Credits: ");
-                        int credits = int.Parse(Console.ReadLine());
-                        Console.WriteLine("Enter Semesters:");
-                        int semester = int.Parse(Console.ReadLine());
-                        _courseManagement.AddCourse(name, credits, semester);
+
+                        Console.WriteLine("Enter Student Id: ");
+                        int studentIdAssign = int.Parse(Console.ReadLine());
+                        Console.WriteLine("Enter Course Id: ");
+                        int courseIdAssign = int.Parse(Console.ReadLine());
+                        Console.WriteLine("Enter Score:");
+                        int scoreAssign = int.Parse(Console.ReadLine());
+                        _gradeManagement.AssignGrade(studentIdAssign, courseIdAssign, scoreAssign);
                         break;
 
                     case "2":
 
-                        _courseManagement.ViewAllCourses();
+                        Console.WriteLine("Enter Student Id: ");
+                        int studentIdUpdate = int.Parse(Console.ReadLine());
+                        Console.WriteLine("Enter Course Id: ");
+                        int courseIdUpdate = int.Parse(Console.ReadLine());
+                        Console.WriteLine("Enter New Score:");
+                        int newScore = int.Parse(Console.ReadLine());
+                        _gradeManagement.UpdateGrade(studentIdUpdate, courseIdUpdate, newScore);
                         break;
 
-
                     case "3":
+
                         Console.Write("Enter student ID: ");
-                        int studentIdUpdate = int.Parse(Console.ReadLine());
-                        _studentManagement.UpdateStudent(studentIdUpdate);
+                        int studentIdView = int.Parse(Console.ReadLine());
+                        Console.Write("Enter course ID: ");
+                        int courseIdView = int.Parse(Console.ReadLine());
+                        _gradeManagement.GetStudentGrade(studentIdView, courseIdView);
                         break;
 
                     case "4":
-                        Console.Write("Enter student ID: ");
-                        int studentIdDelete = int.Parse(Console.ReadLine());
-                        _studentManagement.DeleteStudent(studentIdDelete);
+
+                        Console.Write("Enter course ID: ");
+                        int courseIdGrades = int.Parse(Console.ReadLine());
+                        _gradeManagement.GetCourseGrades(courseIdGrades);
                         break;
 
                     case "5":
@@ -218,6 +228,7 @@ namespace Academy.Models
                 }
             }
         }
+
     }
 }
 

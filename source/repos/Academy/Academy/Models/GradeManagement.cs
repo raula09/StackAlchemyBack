@@ -16,7 +16,7 @@ namespace Academy.Models
         {
             _context = context;
         }
-        public void AssignGrade(int studentId, int courseId, double score)
+        public void AssignGrade(int studentId, int courseId, int score)
         {
             try
             {
@@ -43,9 +43,11 @@ namespace Academy.Models
 
                 _context.SaveChanges();
 
-               
-                var logManager = new LogManager();
-                logManager.LogAction($"Score updated for student ID {studentId} in course ID {courseId}. New score: {score}");
+
+                var fileManager = new FileManagement(_context);
+                fileManager.LogAction($"Score updated for student ID {studentId} in course ID {courseId}. New score: {score}");
+
+
 
                 Console.WriteLine($"Score for student {studentId} in course {courseId} updated to {score}.");
             }
@@ -59,43 +61,83 @@ namespace Academy.Models
         {
             try
             {
-                var student = _context.Students.FirstOrDefault(s => s.Id == studentId);
-                if (student == null)
+                while (true)
                 {
-                    Console.WriteLine("Student not found.");
-                    return;
+                    Console.Clear();
+                    Console.WriteLine("---- Grade Management ----");
+                    Console.WriteLine("1. Update Grade");
+                    Console.WriteLine("2. View Grade");
+                    Console.WriteLine("3. Return to Main Menu");
+
+                    string choice = Console.ReadLine();
+
+                    switch (choice)
+                    {
+                        case "1":
+                            var student = _context.Students.FirstOrDefault(s => s.Id == studentId);
+                            if (student == null)
+                            {
+                                Console.WriteLine("Student not found.");
+                                return;
+                            }
+
+                            var course = _context.Courses.FirstOrDefault(c => c.Id == courseId);
+                            if (course == null)
+                            {
+                                Console.WriteLine("Course not found.");
+                                return;
+                            }
+
+                            var grade = _context.Grades.FirstOrDefault(g => g.StudentId == studentId && g.CourseId == courseId);
+                            if (grade == null)
+                            {
+                                Console.WriteLine("Grade not found for student or course");
+                                return;
+                            }
+
+                            grade.Score = newScore;
+                            grade.Date = DateTime.Now;
+                            grade.Status = newScore >= 50 ? "Completed" : "Active";
+
+                            _context.SaveChanges();
+
+                            Console.WriteLine($"Student {student.FirstName} in course {course.Name} has been assigned a new score: {newScore}.");
+                            break;
+
+                        case "2":
+                            var gradeView = _context.Grades
+                                .FirstOrDefault(g => g.StudentId == studentId && g.CourseId == courseId);
+
+                            if (gradeView == null)
+                            {
+                                Console.WriteLine("Grade not found.");
+                            }
+                            else
+                            {
+                                var studentView = _context.Students.FirstOrDefault(s => s.Id == studentId);
+                                var courseView = _context.Courses.FirstOrDefault(c => c.Id == courseId);
+
+                                Console.WriteLine($"Student: {studentView.FirstName} {studentView.LastName}");
+                                Console.WriteLine($"Course: {courseView.Name}");
+                                Console.WriteLine($"Grade: {gradeView.Score}");
+                            }
+                            break;
+
+                        case "3":
+                            return;
+
+                        default:
+                            Console.WriteLine("Invalid option. Please try again.");
+                            break;
+                    }
                 }
-
-                var course = _context.Courses.FirstOrDefault(c => c.Id == courseId);
-                if (course == null)
-                {
-                    Console.WriteLine("Course not found.");
-                    return;
-                }
-
-
-                var grade = _context.Grades.FirstOrDefault(g => g.StudentId == studentId && g.CourseId == courseId);
-                if (grade == null)
-                {
-                    Console.WriteLine("Grade not found for student or course");
-                    return;
-                }
-
-
-                grade.Score = newScore;
-                grade.Date = DateTime.Now;
-                grade.Status = newScore >= 50 ? "Completed" : "Active";
-
-
-                _context.SaveChanges();
-
-                Console.WriteLine($"Student {student.FirstName} in course {course.Name} has been assigned a new score: {newScore}.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
             }
         }
+
         public void GetStudentGrade(int studentId, int courseId)
         {
             try
