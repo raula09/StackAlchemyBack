@@ -12,18 +12,18 @@ namespace Academy.Models
     {
         private readonly AcademyDbContext _context;
         private static Random _random = new Random();
+
         public StudentManagement(AcademyDbContext context)
         {
             _context = context;
         }
+
         public void AddStudent(string firstName, string lastName)
         {
             try
             {
-               
                 string personalNumber = GeneratePersonalNumber();
 
-               
                 Student student = new Student()
                 {
                     FirstName = firstName,
@@ -32,17 +32,11 @@ namespace Academy.Models
                     PersonalNumber = personalNumber
                 };
 
-            
                 _context.Students.Add(student);
                 _context.SaveChanges();
-                FileManagement _fileManagement = new FileManagement(_context);
-
-
-                _fileManagement.LogAction($"Added new student: {firstName} {lastName} (ID: {student.Id})");
 
                 Console.WriteLine($"Student {firstName} {lastName} added successfully with ID: {student.Id}");
 
-                
                 int courseCount = 0;
 
                 while (courseCount < 4)
@@ -55,7 +49,6 @@ namespace Academy.Models
                     switch (choice)
                     {
                         case "1":
-                           
                             Console.WriteLine("Enter Course ID:");
                             int courseId = int.Parse(Console.ReadLine());
 
@@ -66,7 +59,6 @@ namespace Academy.Models
                             }
                             else
                             {
-                           
                                 var studentCourse = new StudentCourse
                                 {
                                     StudentId = student.Id,
@@ -77,12 +69,11 @@ namespace Academy.Models
                                 _context.SaveChanges();
                                 Console.WriteLine($"Course {course.Name} added to student {student.FirstName} {student.LastName}.");
 
-                                courseCount++; 
+                                courseCount++;
                             }
                             break;
 
                         case "2":
-                           
                             Console.WriteLine("Exiting to the main panel.");
                             return;
 
@@ -91,36 +82,25 @@ namespace Academy.Models
                             break;
                     }
                 }
-
-             
-                _fileManagement.StudentTranscript(student.Id);
             }
             catch (Exception ex)
             {
-                FileManagement _fileManagement = new FileManagement(_context);
-
                 Console.WriteLine($"Error adding student: {ex.Message}");
-                _fileManagement.LogAction($"Error adding student: {ex.Message}");
             }
         }
-
-
 
         public void ViewStudents()
         {
             try
             {
-                
                 var students = _context.Students.ToList();
 
-              
                 if (students == null)
                 {
                     Console.WriteLine("No students found.");
                     return;
                 }
 
-               
                 foreach (var student in students)
                 {
                     Console.WriteLine($"ID: {student.Id}");
@@ -141,7 +121,6 @@ namespace Academy.Models
             Random random = new Random();
             string r = "";
 
-
             for (int i = 0; i < 11; i++)
             {
                 r += random.Next(0, 10).ToString();
@@ -149,6 +128,7 @@ namespace Academy.Models
 
             return r;
         }
+
         public void UpdateStudent(int studentId)
         {
             var student = _context.Students.FirstOrDefault(s => s.Id == studentId);
@@ -181,7 +161,7 @@ namespace Academy.Models
                     Console.Write("Enter new personal number: ");
                     student.PersonalNumber = Console.ReadLine();
                     break;
-                
+
                 case "4":
                     return;
                 default:
@@ -189,40 +169,30 @@ namespace Academy.Models
                     break;
             }
 
-            _context.SaveChanges(); 
+            _context.SaveChanges();
             Console.WriteLine("Student details updated successfully.");
         }
-
 
         public void DeleteStudent(int studentId)
         {
             try
             {
                 var student = _context.Students.FirstOrDefault(s => s.Id == studentId);
-                FileManagement _fileManagement = new FileManagement(_context);
                 if (student == null)
                 {
                     Console.WriteLine("Student not found.");
-                    _fileManagement.LogAction($"Student with ID {studentId} not found for deletion.");
                     return;
                 }
 
-                
                 _context.Students.Remove(student);
                 _context.SaveChanges();
 
                 Console.WriteLine($"Student ID: {studentId} deleted successfully.");
-                _fileManagement.LogAction($"Deleted student with ID {studentId}");
             }
             catch (Exception ex)
             {
-                FileManagement _fileManagement = new FileManagement(_context);
                 Console.WriteLine($"Error deleting student: {ex.Message}");
-                _fileManagement.LogAction($"Error deleting student with ID {studentId}: {ex.Message}");
             }
         }
     }
-
 }
-
-

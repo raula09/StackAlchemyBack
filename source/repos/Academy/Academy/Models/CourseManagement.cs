@@ -2,15 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+
 namespace Academy.Models
 {
     public class CourseManagement
     {
         private readonly AcademyDbContext _context;
         private static Random _random = new Random();
+
         public CourseManagement(AcademyDbContext context)
         {
             _context = context;
@@ -18,8 +18,6 @@ namespace Academy.Models
 
         public void AddCourse(string name, int credits, int semester)
         {
-
-
             Course course = new Course()
             {
                 Name = name,
@@ -42,17 +40,13 @@ namespace Academy.Models
                 return;
             }
 
-           
-            
-         
-
-              Console.WriteLine($"Updating details for {course.Name} {course.Credits}  {course.Semester} ID: {course.Id}");
-              Console.WriteLine("1. Update Name");
-              Console.WriteLine("2. Update Credits");
-              Console.WriteLine("3. Update Semester");
-              Console.WriteLine("4. Exit");
-              Console.Write("Select an option to update: ");
-              string updateChoice = Console.ReadLine();
+            Console.WriteLine($"Updating details for {course.Name} {course.Credits}  {course.Semester} ID: {course.Id}");
+            Console.WriteLine("1. Update Name");
+            Console.WriteLine("2. Update Credits");
+            Console.WriteLine("3. Update Semester");
+            Console.WriteLine("4. Exit");
+            Console.Write("Select an option to update: ");
+            string updateChoice = Console.ReadLine();
 
             switch (updateChoice)
             {
@@ -77,9 +71,7 @@ namespace Academy.Models
             }
 
             _context.SaveChanges();
-            Console.WriteLine("Student details updated successfully.");
-           
-
+            Console.WriteLine("Course details updated successfully.");
         }
 
         public void DeleteCourse(int courseId)
@@ -116,21 +108,20 @@ namespace Academy.Models
                 {
                     foreach (var course in courses)
                     {
-                        Console.WriteLine($"Id:{course.Id} \n Name: {course.Name} \n max Credits: {course.Credits} \n Semester: {course.Semester} \n Creation date: {course.DateOfCreation}");
+                        Console.WriteLine($"Id:{course.Id} \n Name: {course.Name} \n Max Credits: {course.Credits} \n Semester: {course.Semester} \n Creation date: {course.DateOfCreation}");
                         Console.WriteLine("_______________________________________________");
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"error:{ex.Message}");
+                Console.WriteLine($"Error: {ex.Message}");
             }
-
         }
+
         public void EnrollStudentInCourse(int studentId, int courseId)
         {
-            
-                   var student = _context.Students.Find(studentId);
+            var student = _context.Students.Find(studentId);
             var course = _context.Courses.Find(courseId);
 
             if (student == null || course == null)
@@ -144,12 +135,8 @@ namespace Academy.Models
                 CourseId = courseId
             };
 
-
             _context.StudentCourses.Add(studentCourse);
             _context.SaveChanges();
-            
-           
-           
         }
     }
 }

@@ -13,12 +13,14 @@ namespace Academy.Models
         private readonly StudentManagement _studentManagement;
         private readonly CourseManagement _courseManagement;
         private readonly GradeManagement _gradeManagement;
+        private readonly AnalyticsManagement _analyticsManagement;
         public PanelManagement(AcademyDbContext context)
         {
             _context = context;
             _studentManagement = new StudentManagement(_context);
             _courseManagement = new CourseManagement(_context);
             _gradeManagement = new GradeManagement(_context);
+            _analyticsManagement = new AnalyticsManagement(_context);
         }
 
         public void MainMenu()
@@ -46,11 +48,13 @@ namespace Academy.Models
                         break;
 
                     case "3":
-                        Console.WriteLine("Grade Management is under construction.");
+                        GradeManagementMenu();
                         break;
-
                     case "4":
-                        Console.WriteLine("Exiting...");
+
+                        break;
+                    case "5":
+                        Console.WriteLine("Bye bye");
                         return;
 
                     default:
@@ -228,7 +232,57 @@ namespace Academy.Models
                 }
             }
         }
+        public void AnalyticsManagementMenu()
+        {
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine("---- Analytics Management ----");
+                Console.WriteLine("1. Display Students GPA");
+                Console.WriteLine("2. Update Grade");
+                Console.WriteLine("3. View Student Grade");
+                Console.WriteLine("4. View Course Grades");
+                Console.WriteLine("5. Return to Main Menu");
 
+                string choice = Console.ReadLine();
+
+                switch (choice)
+                {
+                    case "1":
+                        _analyticsManagement.DisplayStudentsGPA();
+                        break;
+
+                    case "2":
+
+                        _analyticsManagement.GetStudentsWithNoGrade();
+                        break;
+
+                    case "3":
+                        Console.WriteLine("enter course Id");
+                        int courseId = int.Parse(Console.ReadLine());
+                        _analyticsManagement.DisplayStudentRankingsInCourse(courseId);
+                        break;
+
+                    case "4":
+
+                        Console.Write("Enter student Id: ");
+                        int studentId = int.Parse(Console.ReadLine());
+                        Console.WriteLine("Enter course Id");
+                        int courseId2 = int.Parse(Console.ReadLine());
+                        _analyticsManagement.AvgCourseGrade(studentId, courseId2);
+                       
+                     
+                        break;
+
+                    case "5":
+                        return;
+
+                    default:
+                        Console.WriteLine("Invalid option. Please try again.");
+                        break;
+                }
+            }
+        }
     }
 }
 

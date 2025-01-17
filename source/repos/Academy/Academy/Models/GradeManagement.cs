@@ -2,9 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace Academy.Models
 {
@@ -16,6 +13,7 @@ namespace Academy.Models
         {
             _context = context;
         }
+
         public void AssignGrade(int studentId, int courseId, int score)
         {
             try
@@ -25,7 +23,6 @@ namespace Academy.Models
 
                 if (grade == null)
                 {
-                    
                     grade = new Grade
                     {
                         StudentId = studentId,
@@ -37,18 +34,10 @@ namespace Academy.Models
                 }
                 else
                 {
-              
                     grade.Score = score;
                 }
 
                 _context.SaveChanges();
-
-
-                var fileManager = new FileManagement(_context);
-                fileManager.LogAction($"Score updated for student ID {studentId} in course ID {courseId}. New score: {score}");
-
-
-
                 Console.WriteLine($"Score for student {studentId} in course {courseId} updated to {score}.");
             }
             catch (Exception ex)
@@ -142,7 +131,6 @@ namespace Academy.Models
         {
             try
             {
-              
                 var student = _context.Students.FirstOrDefault(s => s.Id == studentId);
                 if (student == null)
                 {
@@ -150,7 +138,6 @@ namespace Academy.Models
                     return;
                 }
 
-           
                 var course = _context.Courses.FirstOrDefault(c => c.Id == courseId);
                 if (course == null)
                 {
@@ -158,7 +145,6 @@ namespace Academy.Models
                     return;
                 }
 
-               
                 var grade = _context.Grades.FirstOrDefault(g => g.StudentId == studentId && g.CourseId == courseId);
                 if (grade == null)
                 {
@@ -179,11 +165,11 @@ namespace Academy.Models
                 Console.WriteLine($"Error: {ex.Message}");
             }
         }
+
         public void GetCourseGrades(int courseId)
         {
             try
             {
-              
                 var course = _context.Courses.FirstOrDefault(c => c.Id == courseId);
                 if (course == null)
                 {
@@ -191,22 +177,18 @@ namespace Academy.Models
                     return;
                 }
 
-               
                 var grades = _context.Grades.Where(g => g.CourseId == courseId).ToList();
                 if (!grades.Any())
                 {
-                    Console.WriteLine("no student or grades found");
+                    Console.WriteLine("No student or grades found.");
                     return;
                 }
 
-                
                 Console.WriteLine($"Course Name: {course.Name}\n");
 
-                
                 Console.WriteLine("Student Grades:");
                 foreach (var grade in grades)
                 {
-                    
                     var student = _context.Students.FirstOrDefault(s => s.Id == grade.StudentId);
                     if (student != null)
                     {
@@ -216,7 +198,7 @@ namespace Academy.Models
                     }
                     else
                     {
-                        Console.WriteLine("Student not found for the grade .\n");
+                        Console.WriteLine("Student not found for the grade.\n");
                     }
                 }
             }
@@ -225,9 +207,5 @@ namespace Academy.Models
                 Console.WriteLine($"Error: {ex.Message}");
             }
         }
-
-
-
-
     }
 }
