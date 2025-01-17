@@ -127,6 +127,7 @@ namespace Academy.Models
                 }
                 if (course == null)
                 {
+
                     Console.WriteLine("Course not found");
                     return;
                 }
