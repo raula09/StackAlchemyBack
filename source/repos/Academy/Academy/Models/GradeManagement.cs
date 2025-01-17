@@ -16,48 +16,45 @@ namespace Academy.Models
         {
             _context = context;
         }
-        public void AssignGrade(int studentId, int courseId, int score)
+        public void AssignGrade(int studentId, int courseId, double score)
         {
             try
             {
-                var student = _context.Students.FirstOrDefault(s => s.Id == studentId);
-                if (student == null)
+                var grade = _context.Grades
+                                    .FirstOrDefault(g => g.StudentId == studentId && g.CourseId == courseId);
+
+                if (grade == null)
                 {
-                    Console.WriteLine("Student not found.");
-                    return;
+                    
+                    grade = new Grade
+                    {
+                        StudentId = studentId,
+                        CourseId = courseId,
+                        Score = score
+                    };
+
+                    _context.Grades.Add(grade);
+                }
+                else
+                {
+              
+                    grade.Score = score;
                 }
 
-
-                var course = _context.Courses.FirstOrDefault(c => c.Id == courseId);
-                if (course == null)
-                {
-                    Console.WriteLine("Course not found.");
-                    return;
-                }
-
-                Grade grade = new Grade()
-                {
-                    StudentId = studentId,
-                    CourseId = courseId,
-                    Score = score,
-                    Date = DateTime.Now,
-                    Status = score >= 50 ? "Completed" : "Active",
-                    Student = student,
-                    Course = course
-                };
-
-
-                _context.Grades.Add(grade);
                 _context.SaveChanges();
 
-                Console.WriteLine($"student {student.FirstName} in course {course.Name} assigned: {score}. ");
+               
+                var logManager = new LogManager();
+                logManager.LogAction($"Score updated for student ID {studentId} in course ID {courseId}. New score: {score}");
+
+                Console.WriteLine($"Score for student {studentId} in course {courseId} updated to {score}.");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"error: {ex.Message}");
+                Console.WriteLine($"Error: {ex.Message}");
             }
-
         }
+
         public void UpdateGrade(int studentId, int courseId, int newScore)
         {
             try

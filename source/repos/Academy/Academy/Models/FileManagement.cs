@@ -1,25 +1,22 @@
 ﻿using Academy.Data;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using System.Linq;
+
 namespace Academy.Models
 {
     public class FileManagement
     {
         private readonly AcademyDbContext _context;
+        private readonly string logFilePath = "system_log.txt";
 
         public FileManagement(AcademyDbContext context)
         {
             _context = context;
         }
 
-
-
-        public void GenerateStudentTranscript(int studentId)
+        public void StudentTranscript(int studentId)
         {
             try
             {
@@ -29,6 +26,7 @@ namespace Academy.Models
                 if (student == null)
                 {
                     Console.WriteLine("Student not found.");
+                    LogAction($"Failed to generate transcript: Student with ID {studentId} not found.");
                     return;
                 }
 
@@ -39,10 +37,11 @@ namespace Academy.Models
                 if (!studentCourses.Any())
                 {
                     Console.WriteLine($"No courses found for student {student.FirstName} {student.LastName}.");
+                    LogAction($"Student {student.FirstName} {student.LastName} has no courses.");
                     return;
                 }
 
-               
+                // Create directory if it doesn't exist
                 string directoryPath = "StudentLog";
                 if (!Directory.Exists(directoryPath))
                 {
@@ -66,7 +65,6 @@ namespace Academy.Models
                             var grade = _context.Grades
                                                 .FirstOrDefault(g => g.StudentId == studentId && g.CourseId == course.Id);
 
-                          
                             writer.WriteLine($"Course: {course.Name} - Grade: {(grade != null ? grade.Score.ToString() : "Not Graded")}");
                             writer.WriteLine(new string('-', 50));
                         }
@@ -74,14 +72,29 @@ namespace Academy.Models
                 }
 
                 Console.WriteLine($"Transcript generated for {student.FirstName} {student.LastName} and saved to {fileName}");
+                LogAction($"Transcript generated for student {student.FirstName} {student.LastName} (ID: {student.Id}) and saved to {fileName}");
+
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
+                LogAction($"Error while generating transcript for student ID {studentId}: {ex.Message}");
             }
         }
 
-
+        public void LogAction(string actionDescription)
+        {
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(logFilePath, true))
+                {
+                    writer.WriteLine($"{DateTime.Now}: {actionDescription}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error while logging: {ex.Message}");
+            }
+        }
     }
 }
-
