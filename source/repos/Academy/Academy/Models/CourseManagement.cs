@@ -36,18 +36,50 @@ namespace Academy.Models
         {
             var course = _context.Courses.FirstOrDefault(c => c.Id == courseId);
 
-            if (course != null)
-            {
-                course.Name = newName;
-                course.Credits = newCredits;
-                course.Semester = newSemester;
-
-                _context.SaveChanges();
-            }
-            else
+            if (course == null)
             {
                 Console.WriteLine("Course not found");
+                return;
             }
+
+           
+            
+         
+
+              Console.WriteLine($"Updating details for {course.Name} {course.Credits}  {course.Semester} ID: {course.Id}");
+              Console.WriteLine("1. Update Name");
+              Console.WriteLine("2. Update Credits");
+              Console.WriteLine("3. Update Semester");
+              Console.WriteLine("4. Exit");
+              Console.Write("Select an option to update: ");
+              string updateChoice = Console.ReadLine();
+
+            switch (updateChoice)
+            {
+                case "1":
+                    Console.Write("Enter new name: ");
+                    course.Name = Console.ReadLine();
+                    break;
+                case "2":
+                    Console.Write("Enter new credits: ");
+                    course.Credits = int.Parse(Console.ReadLine());
+                    break;
+                case "3":
+                    Console.Write("Enter new Semester: ");
+                    course.Semester = int.Parse(Console.ReadLine());
+                    break;
+
+                case "4":
+                    return;
+                default:
+                    Console.WriteLine("Invalid option selected.");
+                    break;
+            }
+
+            _context.SaveChanges();
+            Console.WriteLine("Student details updated successfully.");
+           
+
         }
 
         public void DeleteCourse(int courseId)

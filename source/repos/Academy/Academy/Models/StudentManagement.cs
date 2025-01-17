@@ -106,6 +106,35 @@ namespace Academy.Models
 
 
 
+        public void ViewStudents()
+        {
+            try
+            {
+                
+                var students = _context.Students.ToList();
+
+              
+                if (students == null)
+                {
+                    Console.WriteLine("No students found.");
+                    return;
+                }
+
+               
+                foreach (var student in students)
+                {
+                    Console.WriteLine($"ID: {student.Id}");
+                    Console.WriteLine($"Name: {student.FirstName} {student.LastName}");
+                    Console.WriteLine($"Personal Number: {student.PersonalNumber}");
+                    Console.WriteLine($"Date of Enrollment: {student.DateOfEnrollment.ToString("MM/dd/yyyy")}");
+                    Console.WriteLine();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+        }
 
         private string GeneratePersonalNumber()
         {
@@ -120,39 +149,51 @@ namespace Academy.Models
 
             return r;
         }
-        public void UpdateStudent(int studentId, string firstName, string lastName)
+        public void UpdateStudent(int studentId)
         {
-            try
-            {
-                FileManagement _fileManagement = new FileManagement(_context);
-                var student = _context.Students.FirstOrDefault(s => s.Id == studentId);
+            var student = _context.Students.FirstOrDefault(s => s.Id == studentId);
 
-                if (student == null)
-                {
-                    Console.WriteLine("Student not found.");
-                    _fileManagement.LogAction($"Student with ID {studentId} not found for update.");
+            if (student == null)
+            {
+                Console.WriteLine("Student not found.");
+                return;
+            }
+
+            Console.WriteLine($"Updating details for {student.FirstName} {student.LastName}  ID: {student.Id}");
+            Console.WriteLine("1. Update First Name");
+            Console.WriteLine("2. Update Last Name");
+            Console.WriteLine("3. Update Personal Number");
+            Console.WriteLine("4. Exit");
+            Console.Write("Select an option to update: ");
+            string updateChoice = Console.ReadLine();
+
+            switch (updateChoice)
+            {
+                case "1":
+                    Console.Write("Enter new first name: ");
+                    student.FirstName = Console.ReadLine();
+                    break;
+                case "2":
+                    Console.Write("Enter new last name: ");
+                    student.LastName = Console.ReadLine();
+                    break;
+                case "3":
+                    Console.Write("Enter new personal number: ");
+                    student.PersonalNumber = Console.ReadLine();
+                    break;
+                
+                case "4":
                     return;
-                }
-
-             
-                student.FirstName = firstName;
-                student.LastName = lastName;
-
-               
-                _context.SaveChanges();
-
-                Console.WriteLine($"Student ID: {studentId} updated successfully.");
-                _fileManagement.LogAction($"Updated student: {firstName} {lastName} (ID: {studentId})");
+                default:
+                    Console.WriteLine("Invalid option selected.");
+                    break;
             }
-            catch (Exception ex)
-            {
-                FileManagement _fileManagement = new FileManagement(_context);
-                Console.WriteLine($"Error updating student: {ex.Message}");
-                _fileManagement.LogAction($"Error updating student with ID {studentId}: {ex.Message}");
-            }
+
+            _context.SaveChanges(); 
+            Console.WriteLine("Student details updated successfully.");
         }
 
-      
+
         public void DeleteStudent(int studentId)
         {
             try

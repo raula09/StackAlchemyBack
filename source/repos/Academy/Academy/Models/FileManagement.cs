@@ -41,7 +41,6 @@ namespace Academy.Models
                     return;
                 }
 
-                // Create directory if it doesn't exist
                 string directoryPath = "StudentLog";
                 if (!Directory.Exists(directoryPath))
                 {
