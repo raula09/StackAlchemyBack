@@ -81,6 +81,12 @@ namespace Academy.Models
         {
             try
             {
+                string logFilePath = @"C:\Users\raul0\source\repos\Academy\Academy\bin\Debug\net8.0\StudentInfoLogs\log.txt";
+                string directory = Path.GetDirectoryName(logFilePath);
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
                 using (StreamWriter writer = new StreamWriter(logFilePath, true))
                 {
                     writer.WriteLine($"{DateTime.Now}: {actionDescription}");
@@ -91,5 +97,7 @@ namespace Academy.Models
                 Console.WriteLine($"Error while logging: {ex.Message}");
             }
         }
+
+
     }
 }
