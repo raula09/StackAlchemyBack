@@ -34,5 +34,5 @@ namespace StackAlchemy_Back.Models
         public ICollection<Vote> Votes { get; set; }
     }
 
-    //test comment
+    //test comment ss
 }
