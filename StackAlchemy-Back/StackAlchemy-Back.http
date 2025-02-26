@@ -1,0 +1,6 @@
+@StackAlchemy_Back_HostAddress = http://localhost:5135
+
+GET {{StackAlchemy_Back_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

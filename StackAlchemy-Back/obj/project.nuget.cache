@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "jSm0rPGABnA=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\raul0\\source\\repos\\StackAlchemy-Back\\StackAlchemy-Back\\StackAlchemy-Back.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\raul0\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.1\\microsoft.aspnetcore.openapi.9.0.1.nupkg.sha512",
+    "C:\\Users\\raul0\\.nuget\\packages\\microsoft.openapi\\1.6.17\\microsoft.openapi.1.6.17.nupkg.sha512"
+  ],
+  "logs": []
+}
