@@ -16,4 +16,6 @@ obj/
 .idea/
 
 appsettings.json
+appsettings.Development.json
+
 
