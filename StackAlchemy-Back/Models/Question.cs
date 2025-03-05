@@ -12,8 +12,8 @@ namespace StackAlchemy_Back.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public string? Code { get; set; }
-        public int Scores { get;set; }
-
+        public int Scores { get; set; }
+        public ICollection<Answer> Answers { get; set; }
 
     }
 }

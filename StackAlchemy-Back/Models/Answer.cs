@@ -8,7 +8,7 @@ namespace StackAlchemy_Back.Models
     {
         public int Id { get; set; }
         public int User_Id { get; set; }
-        public User User { get; set; 
+        public User User { get; set; }
         public int Question_Id { get; set; }
         public Question Question { get; set; }
         public string Title { get; set; }
