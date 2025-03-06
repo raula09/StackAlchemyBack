@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace StackAlchemy_Back.Migrations
 {
     [DbContext(typeof(StackContext))]
-    [Migration("20250305192555_init")]
+    [Migration("20250306084639_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -38,24 +38,21 @@ namespace StackAlchemy_Back.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Question_Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Scores")
+                    b.Property<int>("QuestionId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("User_Id")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Question_Id");
+                    b.HasIndex("QuestionId");
 
-                    b.HasIndex("User_Id");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Answers");
                 });
@@ -82,12 +79,12 @@ namespace StackAlchemy_Back.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("User_Id")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("User_Id");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Questions");
                 });
@@ -118,13 +115,13 @@ namespace StackAlchemy_Back.Migrations
                 {
                     b.HasOne("StackAlchemy_Back.Models.Question", "Question")
                         .WithMany("Answers")
-                        .HasForeignKey("Question_Id")
+                        .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("StackAlchemy_Back.Models.User", "User")
                         .WithMany("Answers")
-                        .HasForeignKey("User_Id")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -137,7 +134,7 @@ namespace StackAlchemy_Back.Migrations
                 {
                     b.HasOne("StackAlchemy_Back.Models.User", "User")
                         .WithMany("Questions")
-                        .HasForeignKey("User_Id")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 

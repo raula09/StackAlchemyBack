@@ -31,7 +31,7 @@ namespace StackAlchemy_Back.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    User_Id = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -41,8 +41,8 @@ namespace StackAlchemy_Back.Migrations
                 {
                     table.PrimaryKey("PK_Questions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Questions_Users_User_Id",
-                        column: x => x.User_Id,
+                        name: "FK_Questions_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -54,44 +54,43 @@ namespace StackAlchemy_Back.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    User_Id = table.Column<int>(type: "int", nullable: false),
-                    Question_Id = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    QuestionId = table.Column<int>(type: "int", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Scores = table.Column<int>(type: "int", nullable: false)
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Answers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Answers_Questions_Question_Id",
-                        column: x => x.Question_Id,
+                        name: "FK_Answers_Questions_QuestionId",
+                        column: x => x.QuestionId,
                         principalTable: "Questions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Answers_Users_User_Id",
-                        column: x => x.User_Id,
+                        name: "FK_Answers_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Answers_Question_Id",
+                name: "IX_Answers_QuestionId",
                 table: "Answers",
-                column: "Question_Id");
+                column: "QuestionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Answers_User_Id",
+                name: "IX_Answers_UserId",
                 table: "Answers",
-                column: "User_Id");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Questions_User_Id",
+                name: "IX_Questions_UserId",
                 table: "Questions",
-                column: "User_Id");
+                column: "UserId");
         }
 
         /// <inheritdoc />
