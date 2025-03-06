@@ -16,7 +16,7 @@ namespace StackAlchemy_Back.Controllers
             _userRepository = userRepository;
         }
 
-        // Create a new user
+      
         [HttpPost]
         public IActionResult CreateUser([FromBody] UserDto userDto)
         {
@@ -35,7 +35,7 @@ namespace StackAlchemy_Back.Controllers
             return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, user);
         }
 
-        // Get user by ID
+        
         [HttpGet("{id}")]
         public IActionResult GetUserById(int id)
         {
@@ -49,7 +49,7 @@ namespace StackAlchemy_Back.Controllers
             return Ok(user);
         }
 
-        // Get all users
+      
         [HttpGet]
         public IActionResult GetUsers()
         {
@@ -58,7 +58,7 @@ namespace StackAlchemy_Back.Controllers
             return Ok(users);
         }
 
-        // Update an existing user
+      
         [HttpPut("{id}")]
         public IActionResult UpdateUser(int id, [FromBody] UserDto userDto)
         {
@@ -77,7 +77,7 @@ namespace StackAlchemy_Back.Controllers
             return Ok(updatedUser);
         }
 
-        // Delete a user
+       
         [HttpDelete("{id}")]
         public IActionResult DeleteUser(int id)
         {

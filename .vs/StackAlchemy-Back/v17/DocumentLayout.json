@@ -1,0 +1,64 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\raul0\\Desktop\\StackAlchemyBack\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{CD33B6B5-A09D-4003-92A4-A8AB2F15C0AD}|StackAlchemy-Back\\StackAlchemy-Back.csproj|c:\\users\\raul0\\desktop\\stackalchemyback\\stackalchemy-back\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CD33B6B5-A09D-4003-92A4-A8AB2F15C0AD}|StackAlchemy-Back\\StackAlchemy-Back.csproj|solutionrelative:stackalchemy-back\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CD33B6B5-A09D-4003-92A4-A8AB2F15C0AD}|StackAlchemy-Back\\StackAlchemy-Back.csproj|c:\\users\\raul0\\desktop\\stackalchemyback\\stackalchemy-back\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CD33B6B5-A09D-4003-92A4-A8AB2F15C0AD}|StackAlchemy-Back\\StackAlchemy-Back.csproj|solutionrelative:stackalchemy-back\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "C:\\Users\\raul0\\Desktop\\StackAlchemyBack\\StackAlchemy-Back\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "StackAlchemy-Back\\Controllers\\UserController.cs",
+              "ToolTip": "C:\\Users\\raul0\\Desktop\\StackAlchemyBack\\StackAlchemy-Back\\Controllers\\UserController.cs",
+              "RelativeToolTip": "StackAlchemy-Back\\Controllers\\UserController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-06T10:01:28.047Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\raul0\\Desktop\\StackAlchemyBack\\StackAlchemy-Back\\Program.cs",
+              "RelativeDocumentMoniker": "StackAlchemy-Back\\Program.cs",
+              "ToolTip": "C:\\Users\\raul0\\Desktop\\StackAlchemyBack\\StackAlchemy-Back\\Program.cs",
+              "RelativeToolTip": "StackAlchemy-Back\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-06T10:01:09.923Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
