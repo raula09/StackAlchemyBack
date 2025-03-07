@@ -12,7 +12,7 @@ namespace StackAlchemy_Back.Models
         public int? Id { get; set; }
         public string? Username { get; set; }
         public string? Email { get; set; }
-        public string? Password { get; set; }
+        public string? PasswordHash { get; set; }
         public ICollection<Answer> Answers { get; set; }
         public ICollection<Question> Questions { get; set; }
     }

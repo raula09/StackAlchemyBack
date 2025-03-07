@@ -16,11 +16,16 @@ namespace StackAlchemy_Back.Repositories
         }
         public User CreateUser(UserDto user)
         {
-           var U = _mapper.Map<User>(user);
+            var U = _mapper.Map<User>(user);
+
+            
+            U.PasswordHash = PasswordHelper.HashPassword(user.PasswordHash);
+
             _context.Users.Add(U);
             _context.SaveChanges();
             return U;
         }
+
 
         public User DeleteUser(int id)
         {
@@ -38,7 +43,8 @@ namespace StackAlchemy_Back.Repositories
                 {
                     Id = u.Id,
                     Username = u.Username,
-                    Email = u.Email
+                    Email = u.Email,
+                  
                 })
                 .FirstOrDefault();
 
