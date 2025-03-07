@@ -30,5 +30,14 @@ public class StackContext : DbContext
             .WithMany(u => u.Questions)
             .HasForeignKey(u => u.UserId)
             .OnDelete(DeleteBehavior.Restrict);
+
+
+          modelBuilder.Entity<User>()
+         .HasIndex(u => u.Email)  
+         .IsUnique();
+
+        modelBuilder.Entity<User>()
+            .HasIndex(u => u.Username)  
+            .IsUnique();
     }
 }
