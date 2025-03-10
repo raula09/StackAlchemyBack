@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace StackAlchemy_Back.Migrations
 {
     [DbContext(typeof(StackContext))]
-    [Migration("20250305192555_init")]
+    [Migration("20250310180607_init")]
     partial class init
     {
         /// <inheritdoc />

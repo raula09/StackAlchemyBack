@@ -10,7 +10,15 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<StackContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<QuestionRepository>();
+
+builder.Services.AddScoped<UserRepository>();
+
+builder.Services.AddScoped<AnswerRepository>();
 var app = builder.Build();
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
