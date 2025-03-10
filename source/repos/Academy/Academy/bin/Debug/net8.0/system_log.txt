@@ -1,6 +1,0 @@
-1/17/2025 3:43:54 PM: Student info for Raul2 Alazovi2 ID: 6 saved to StudentInfoLogs\student_6_info.txt
-1/17/2025 4:14:42 PM: New course added: C++, Course ID: 5, Credits: 12, Semester: 8
-1/17/2025 4:15:24 PM: Student info for Gio Giorgadze ID: 7 saved to StudentInfoLogs\student_7_info.txt
-1/17/2025 4:15:36 PM: New student added: Gio Giorgadze, ID: 7, Personal Number: 97467710723
-1/17/2025 4:24:21 PM: All student info saved to StudentInfoLogs\AllStudentsInfo.txt
-1/17/2025 4:24:32 PM: New student added: John Doe, ID: 8, Personal Number: 44660106456

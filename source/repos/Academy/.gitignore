@@ -1,8 +1,0 @@
-# Ignore Visual Studio temporary files, directories, and files
-.vs/
-.vscode/
-*.user
-*.userosscache
-*.suo
-*.tmp
-*.log
