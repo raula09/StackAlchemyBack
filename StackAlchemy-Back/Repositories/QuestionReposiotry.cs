@@ -17,6 +17,7 @@ public class QuestionRepository
             Title = Title,
             Code = Code,
             Description = Description,
+            Scores = 0
         };
 
         _context.Questions.Add(NewQuestion);

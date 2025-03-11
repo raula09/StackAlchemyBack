@@ -16,6 +16,9 @@ builder.Services.AddScoped<QuestionRepository>();
 builder.Services.AddScoped<UserRepository>();
 
 builder.Services.AddScoped<AnswerRepository>();
+
+builder.Services.AddScoped<TokenService>();
+builder.Services.AddScoped<PasswordService>();
 var app = builder.Build();
 
 

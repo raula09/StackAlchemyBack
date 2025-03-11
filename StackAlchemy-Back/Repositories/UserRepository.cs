@@ -11,6 +11,11 @@ public class UserRepository
 
     public User CreateUser(string Username, string Email, string Password)
     {
+        User UserIsRegistered = _context.Users.FirstOrDefault(u => u.Username == Username || u.Email == Email);
+        if (UserIsRegistered != null)
+        {
+            return null;
+        }
         User NewUser = new User
         {
             Username = Username,
@@ -21,6 +26,17 @@ public class UserRepository
         _context.Users.Add(NewUser);
         _context.SaveChanges();
         return NewUser;
+    }
+
+    public User GetUser(string Username)
+    {
+        User LoggedInUser = _context.Users.FirstOrDefault(u => u.Username == Username);
+        if (LoggedInUser == null)
+        {
+            return null;
+        }
+
+        return LoggedInUser;
     }
 
     public List<User> GetAllUsers()
