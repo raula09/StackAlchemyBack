@@ -17,7 +17,8 @@ obj/
 
 appsettings.json
 appsettings.Development.json
-/migrations/
+/Migrations/
+
 
 
 
