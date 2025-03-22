@@ -15,6 +15,7 @@ namespace StackAlchemy_Back.Models
         public string? Password { get; set; }
         public ICollection<Answer> Answers { get; set; }
         public ICollection<Question> Questions { get; set; }
+        public ICollection<Score> Scores { get; set; }
     }
 
 

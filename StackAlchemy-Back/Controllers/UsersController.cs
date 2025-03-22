@@ -18,11 +18,11 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("RegisterUser")]
-    public IActionResult RegisterUser(string Username, string Email, string Password)
+    public IActionResult RegisterUser(UserRegistrationDto userDetails)
     {
-        string hashedPassword = _passwordService.HashPassword(Password);
+        string hashedPassword = _passwordService.HashPassword(userDetails.Password);
 
-        User CreatedUser = _UserRepository.CreateUser(Username, Email, hashedPassword);
+        User CreatedUser = _UserRepository.CreateUser(userDetails.Username, userDetails.Email, hashedPassword);
         if (CreatedUser == null)
         {
             return BadRequest(new { mesage = "User Creation(Registration) Failed." });
