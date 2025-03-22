@@ -22,7 +22,7 @@ public class QuestionController : ControllerBase
         {
             return BadRequest();
         }
-        Question CreatedQuestion = _questionRepository.CreateQuestion(UserId, Title, Code, Description);
+        QuestionDTO CreatedQuestion = _questionRepository.CreateQuestion(UserId, Title, Code, Description);
         if (CreatedQuestion == null)
         {
             return BadRequest();
@@ -34,5 +34,36 @@ public class QuestionController : ControllerBase
     public IActionResult GetAllQuestions()
     {
         return Ok(_questionRepository.GetAllQuestions());
+    }
+
+    [HttpGet("GetLikesAndDislikes")]
+
+    public IActionResult GetLikesAndDislikes([FromBody] int questionId)
+    {
+        return Ok(_questionRepository.GetLikesAndDislikes(questionId));
+    }
+
+    [HttpPost("LikeQuestion")]
+    public IActionResult LikeQuestion([FromBody] int userId, int questionId)
+    {
+        bool liked = _questionRepository.LikeQuestion(userId, questionId);
+        if (liked == false)
+        {
+            return BadRequest("Erron on liking the question.");
+        }
+
+        return Ok("Liked a Question.");
+    }
+
+    [HttpPost("DislikeQuestion")]
+    public IActionResult DislikeQuestion([FromBody] int userId, int questionId)
+    {
+        bool disliked = _questionRepository.DislikeQuestion(userId, questionId);
+        if (disliked == false)
+        {
+            return BadRequest("Error on disliking the question.");
+        }
+
+        return Ok("Disliked a Question.");
     }
 }

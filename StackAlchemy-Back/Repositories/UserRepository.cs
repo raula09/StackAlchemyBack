@@ -11,7 +11,7 @@ public class UserRepository
 
     public User CreateUser(string Username, string Email, string Password)
     {
-        User UserIsRegistered = _context.Users.FirstOrDefault(u => u.Username == Username || u.Email == Email);
+        User UserIsRegistered = _context.Users.FirstOrDefault(u => u.Username == Username && u.Email == Email);
         if (UserIsRegistered != null)
         {
             return null;
