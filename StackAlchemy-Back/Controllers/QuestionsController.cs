@@ -15,7 +15,7 @@ public class QuestionController : ControllerBase
     }
 
     [HttpPost("CreateQuestion")]
-    public IActionResult CreateQuestion(string Authorization, string Title, string Code, string Description)
+    public IActionResult CreateQuestion([FromHeader] string Authorization, [FromBody] CreatedQuestionDto QuestionDetails)
     {
         try
         {
@@ -25,13 +25,13 @@ public class QuestionController : ControllerBase
                 return Unauthorized("Missing token.");
             }
 
-            QuestionDTO CreatedQuestion = _questionRepository.CreateQuestion(token, Title, Code, Description);
+            QuestionDTO CreatedQuestion = _questionRepository.CreateQuestion(token, QuestionDetails.Title, QuestionDetails.Code, QuestionDetails.Description);
             if (CreatedQuestion == null)
             {
                 return BadRequest("Failed to create question.");
             }
 
-            return Ok(CreatedQuestion);
+            return Ok(new { question = CreatedQuestion, message = "Succesfully created a question!" });
         }
         catch (UnauthorizedAccessException ex)
         {
