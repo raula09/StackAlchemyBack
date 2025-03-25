@@ -25,8 +25,8 @@ public class TokenService
 
             var claims = new[]
             {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Username),
             new Claim(JwtRegisteredClaimNames.Email, user.Email),
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
@@ -63,6 +63,11 @@ public class TokenService
                 ValidAudience = _config["Jwt:Audience"],
                 IssuerSigningKey = new SymmetricSecurityKey(key)
             }, out var validatedToken);
+
+            var userId = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var email = principal.FindFirst(JwtRegisteredClaimNames.Email)?.Value;
+
+            Console.WriteLine($"User ID: {userId}, Email: {email}");
 
             return principal;
         }

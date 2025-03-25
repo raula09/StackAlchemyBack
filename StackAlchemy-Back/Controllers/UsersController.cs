@@ -27,26 +27,22 @@ public class UserController : ControllerBase
         {
             return BadRequest(new { mesage = "User Creation(Registration) Failed." });
         }
-        string StringToken = _tokenService.GenerateToken(CreatedUser);
-        if (StringToken == null)
-        {
-            return BadRequest(new { message = "error on generating token." });
-        }
-        return Ok(new { token = StringToken });
+
+        return Ok(new { message = $"User: {CreatedUser.Username} Registered Succesfully!" });
     }
 
 
     [HttpPost("LoginUser")]
 
-    public IActionResult LoginUser(string Username, string Password)
+    public IActionResult LoginUser(UserLoginDto userDetails)
     {
-        User LoggedInUser = _UserRepository.GetUser(Username);
+        User LoggedInUser = _UserRepository.GetUser(userDetails.Email);
         if (LoggedInUser == null)
         {
             return BadRequest(new { message = "User was not found." });
         }
 
-        bool correctPassword = _passwordService.VerifyPassword(LoggedInUser.Password, Password);
+        bool correctPassword = _passwordService.VerifyPassword(LoggedInUser.Password, userDetails.Password);
         if (correctPassword == false)
         {
             return BadRequest(new { mesage = "invalid password" });
@@ -56,7 +52,7 @@ public class UserController : ControllerBase
         {
             return BadRequest(new { message = "error on generating token." });
         }
-        return Ok(new { token = StringToken });
+        return Ok(new { token = StringToken, message = $"User {LoggedInUser.Username} has logged in." });
     }
 
     [HttpGet("GetAllUsers")]

@@ -15,19 +15,32 @@ public class QuestionController : ControllerBase
     }
 
     [HttpPost("CreateQuestion")]
-    public IActionResult CreateQuestion(int UserId, string Title, string Code, string Description)
+    public IActionResult CreateQuestion(string Authorization, string Title, string Code, string Description)
     {
-        var user = _context.Users.Find(UserId);
-        if (user == null)
+        try
         {
-            return BadRequest();
+            var token = Authorization?.Split(" ")?.Last();
+            if (string.IsNullOrEmpty(token))
+            {
+                return Unauthorized("Missing token.");
+            }
+
+            QuestionDTO CreatedQuestion = _questionRepository.CreateQuestion(token, Title, Code, Description);
+            if (CreatedQuestion == null)
+            {
+                return BadRequest("Failed to create question.");
+            }
+
+            return Ok(CreatedQuestion);
         }
-        QuestionDTO CreatedQuestion = _questionRepository.CreateQuestion(UserId, Title, Code, Description);
-        if (CreatedQuestion == null)
+        catch (UnauthorizedAccessException ex)
         {
-            return BadRequest();
+            return Unauthorized(ex.Message);
         }
-        return Ok(CreatedQuestion);
+        catch (Exception ex)
+        {
+            return BadRequest($"Error: {ex.Message}");
+        }
     }
 
     [HttpGet("GetAllQuestions")]

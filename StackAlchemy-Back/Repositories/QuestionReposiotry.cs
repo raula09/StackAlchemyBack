@@ -1,20 +1,39 @@
+using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using StackAlchemy_Back.Models;
 
 public class QuestionRepository
 {
     private readonly StackContext _context;
+    private readonly TokenService _tokenService;
 
-    public QuestionRepository(StackContext context)
+    public QuestionRepository(StackContext context, TokenService tokenService)
     {
         _context = context;
+        _tokenService = tokenService;
     }
 
-    public QuestionDTO CreateQuestion(int UserId, string Title, string Code, string Description)
+    public QuestionDTO CreateQuestion(string token, string Title, string Code, string Description)
     {
+
+        var UserDetails = _tokenService.ValidateToken(token);
+        if (UserDetails == null)
+        {
+            throw new UnauthorizedAccessException("Invalid token.");
+        }
+
+
+        var userIdClaim = UserDetails.FindFirst(ClaimTypes.NameIdentifier);
+        if (userIdClaim == null)
+        {
+            throw new UnauthorizedAccessException("User ID not found in token.");
+        }
+
+        var userIdString = int.Parse(userIdClaim.Value);
+
         Question NewQuestion = new Question
         {
-            User_Id = UserId,
+            User_Id = userIdString,
             Title = Title,
             Code = Code,
             Description = Description,

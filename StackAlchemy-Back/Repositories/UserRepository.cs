@@ -28,9 +28,9 @@ public class UserRepository
         return NewUser;
     }
 
-    public User GetUser(string Username)
+    public User GetUser(string Email)
     {
-        User LoggedInUser = _context.Users.FirstOrDefault(u => u.Username == Username);
+        User LoggedInUser = _context.Users.FirstOrDefault(u => u.Email == Email);
         if (LoggedInUser == null)
         {
             return null;
