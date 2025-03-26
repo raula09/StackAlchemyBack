@@ -24,6 +24,13 @@ public class AnswerController : ControllerBase
         return Ok(CreatedAnswer);
     }
 
+    [HttpGet("GetQuestionsAnswers")]
+    public IActionResult GetQuestionsAnswers([FromHeader] int questionId)
+    {
+        List<Answer> answers = _AnswerRepository.GetQuestionsAnswers(questionId);
+        return Ok(new { answers = answers, message = "succesfully returned answers" });
+    }
+
     [HttpGet("GetAllAnswers")]
     public IActionResult GetAllAnswers()
     {

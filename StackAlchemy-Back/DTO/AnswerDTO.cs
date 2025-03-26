@@ -1,5 +1,4 @@
-
-public class QuestionDto
+public class AnswerDto
 {
     public int Id { get; set; }
     public string Title { get; set; }
@@ -7,5 +6,5 @@ public class QuestionDto
     public string Code { get; set; }
     public int Scores { get; set; }
     public UserDto User { get; set; }
-    public List<AnswerDto> Answers { get; set; }
+
 }

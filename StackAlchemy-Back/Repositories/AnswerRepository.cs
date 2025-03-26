@@ -25,6 +25,10 @@ public class AnswerRepository
         return NewAnswer;
     }
 
+    public List<Answer> GetQuestionsAnswers(int QuestionId)
+    {
+        return _context.Answers.Where(a => a.Question_Id == QuestionId).ToList();
+    }
     public List<Answer> GetAllAnswers()
     {
         return _context.Answers.ToList();

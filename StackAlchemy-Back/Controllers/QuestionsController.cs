@@ -14,6 +14,8 @@ public class QuestionController : ControllerBase
         _context = context;
     }
 
+
+
     [HttpPost("CreateQuestion")]
     public IActionResult CreateQuestion([FromHeader] string Authorization, [FromBody] CreatedQuestionDto QuestionDetails)
     {
@@ -25,7 +27,7 @@ public class QuestionController : ControllerBase
                 return Unauthorized("Missing token.");
             }
 
-            QuestionDTO CreatedQuestion = _questionRepository.CreateQuestion(token, QuestionDetails.Title, QuestionDetails.Code, QuestionDetails.Description);
+            QuestionDto CreatedQuestion = _questionRepository.CreateQuestion(token, QuestionDetails.Title, QuestionDetails.Code, QuestionDetails.Description);
             if (CreatedQuestion == null)
             {
                 return BadRequest("Failed to create question.");
@@ -43,6 +45,12 @@ public class QuestionController : ControllerBase
         }
     }
 
+    [HttpGet("GetQuestionById")]
+    public IActionResult GetQuestionById([FromHeader] int questionId)
+    {
+        QuestionDto question = _questionRepository.GetQuestionById(questionId);
+        return Ok(new { question = question, message = "Succesfully returned a question." });
+    }
     [HttpGet("GetAllQuestions")]
     public IActionResult GetAllQuestions()
     {

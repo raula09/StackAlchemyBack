@@ -13,7 +13,43 @@ public class QuestionRepository
         _tokenService = tokenService;
     }
 
-    public QuestionDTO CreateQuestion(string token, string Title, string Code, string Description)
+    public QuestionDto GetQuestionById(int questionId)
+    {
+        Question question = _context.Questions
+        .Include(q => q.User)
+        .Include(q => q.Answers)
+            .ThenInclude(a => a.User)
+        .FirstOrDefault(q => q.Id == questionId);
+
+        QuestionDto questionDto = new QuestionDto
+        {
+            Id = question.Id,
+            Title = question.Title,
+            Description = question.Description,
+            Code = question.Code,
+            User = new UserDto
+            {
+                Id = question.User_Id,
+                Username = question.User.Username
+            },
+            Answers = question.Answers.Select(a => new AnswerDto
+            {
+                Id = a.Id,
+                Title = a.Title,
+                Description = a.Description,
+                Code = a.Code,
+                User = new UserDto
+                {
+                    Id = a.User_Id,
+                    Username = a.User.Username
+                }
+            }).ToList()
+        };
+
+        return questionDto;
+    }
+
+    public QuestionDto CreateQuestion(string token, string Title, string Code, string Description)
     {
 
         var UserDetails = _tokenService.ValidateToken(token);
@@ -42,32 +78,28 @@ public class QuestionRepository
         _context.Questions.Add(NewQuestion);
         _context.SaveChanges();
 
-        var questionDTO = new QuestionDTO
+        var questionDTO = new QuestionDto
         {
-            QuestionId = NewQuestion.Id,
+            Id = NewQuestion.Id,
             Title = NewQuestion.Title,
             Code = NewQuestion.Code,
             Description = NewQuestion.Description,
-            UserId = NewQuestion.User_Id
         };
         return questionDTO;
     }
 
-    public List<QuestionDTO> GetAllQuestions()
+    public List<QuestionDto> GetAllQuestions()
     {
         return _context.Questions
             .Include(q => q.Answers)
             .Include(q => q.Scores)
-            .Select(q => new QuestionDTO
+            .Select(q => new QuestionDto
             {
-                QuestionId = q.Id,
+                Id = q.Id,
                 Title = q.Title,
                 Code = q.Code,
                 Description = q.Description,
-                UserId = q.User_Id,
-                UserName = q.User.Username,
                 Scores = q.Scores.Count(),
-                Answers = q.Answers.Count()
 
             })
             .ToList();
