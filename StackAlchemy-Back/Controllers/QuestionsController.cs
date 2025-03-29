@@ -24,13 +24,13 @@ public class QuestionController : ControllerBase
             var token = Authorization?.Split(" ")?.Last();
             if (string.IsNullOrEmpty(token))
             {
-                return Unauthorized("Missing token.");
+                return Unauthorized(new { message = "Missing token." });
             }
 
             QuestionDto CreatedQuestion = _questionRepository.CreateQuestion(token, QuestionDetails.Title, QuestionDetails.Code, QuestionDetails.Description);
             if (CreatedQuestion == null)
             {
-                return BadRequest("Failed to create question.");
+                return BadRequest(new { message = "Failed to create question." });
             }
 
             return Ok(new { question = CreatedQuestion, message = "Succesfully created a question!" });

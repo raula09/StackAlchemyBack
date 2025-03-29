@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using StackAlchemy_Back.Models;
 
@@ -7,21 +8,33 @@ using StackAlchemy_Back.Models;
 public class AnswerController : ControllerBase
 {
     private readonly AnswerRepository _AnswerRepository;
+    private readonly TokenService _tokenService;
 
-    public AnswerController(AnswerRepository AnswerRepository)
+    public AnswerController(AnswerRepository AnswerRepository, TokenService tokenService)
     {
         _AnswerRepository = AnswerRepository;
+        _tokenService = tokenService;
     }
 
     [HttpPost("CreateAnswer")]
-    public IActionResult CreateAnswer(int UserId, int QuestionId, string Title, string Code, string Description)
+    public IActionResult CreateAnswer([FromBody] CreateAnswerDTO createAnswerDTO)
     {
-        Answer CreatedAnswer = _AnswerRepository.CreateAnswer(UserId, QuestionId, Title, Code, Description);
+        var userPrincipal = _tokenService.ValidateToken(Request.Headers["Authorization"].ToString().Replace("Bearer ", ""));
+        if (userPrincipal == null)
+        {
+            return Unauthorized(new { message = "Invalid or missing token." });
+        }
+        var userId = userPrincipal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userId))
+        {
+            return Unauthorized(new { message = "User ID is missing in the token." });
+        }
+        Answer CreatedAnswer = _AnswerRepository.CreateAnswer(int.Parse(userId), createAnswerDTO.QuestionId, createAnswerDTO.Title, createAnswerDTO.Code, createAnswerDTO.Description);
         if (CreatedAnswer == null)
         {
             return BadRequest();
         }
-        return Ok(CreatedAnswer);
+        return Ok(new { message = "Succesfully created an answer!", answer = CreatedAnswer });
     }
 
     [HttpGet("GetQuestionsAnswers")]
