@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("StackAlchemy-Back")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+125d87a9685e56762dd3ac98f94c9893db6554d3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+93f13e2475f36235ed924fc054cee00388fe4489")]
 [assembly: System.Reflection.AssemblyProductAttribute("StackAlchemy-Back")]
 [assembly: System.Reflection.AssemblyTitleAttribute("StackAlchemy-Back")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

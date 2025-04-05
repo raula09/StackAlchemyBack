@@ -9,24 +9,25 @@ public class UserRepository
         _context = context;
     }
 
-    public User CreateUser(string Username, string Email, string Password)
+    public User CreateUser(string Username, string Email, string Password, string token)
     {
-        User UserIsRegistered = _context.Users.FirstOrDefault(u => u.Username == Username && u.Email == Email);
-        if (UserIsRegistered != null)
-        {
+        if (_context.Users.Any(u => u.Username == Username || u.Email == Email))
             return null;
-        }
-        User NewUser = new User
+
+        var user = new User
         {
             Username = Username,
             Email = Email,
-            Password = Password
+            Password = Password,
+            EmailVerificationToken = token,
+            IsVerified = false
         };
 
-        _context.Users.Add(NewUser);
+        _context.Users.Add(user);
         _context.SaveChanges();
-        return NewUser;
+        return user;
     }
+
 
     public User GetUser(string Email)
     {
@@ -34,6 +35,11 @@ public class UserRepository
         if (LoggedInUser == null)
         {
             return null;
+        }
+
+        if (LoggedInUser.IsVerified == false)
+        {
+            throw new InvalidOperationException("User is not Verified");
         }
 
         return LoggedInUser;
